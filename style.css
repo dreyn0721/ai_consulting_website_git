@@ -517,7 +517,8 @@ footer {
   resize: none;
 }
 
-.contact-form button {
+.contact-form button,
+.contact-form .submit-btn {
   background: #264A8B;
   color: #fff;
   border: none;
@@ -529,7 +530,8 @@ footer {
   overflow: hidden;
 }
 
-.contact-form button:hover {
+.contact-form button:hover,
+.contact-form .submit-btn:hover {
   background: #253A8C;
 }
 
@@ -558,3 +560,31 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+
+
+
+    .response-container{
+      display: none;
+    }
+
+    .response-container ul{
+      padding: 0;
+      margin: 0;
+    }
+    .response-container ul li{
+      list-style-type: none;
+      color: #fff;
+      background-color: #DB2122;
+      padding: 10px 30px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    .response-container p{
+      color: #fff;
+      background-color: #316300;
+      padding: 10px 30px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
