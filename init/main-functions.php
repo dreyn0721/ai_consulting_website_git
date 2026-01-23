@@ -1,6 +1,6 @@
 <?php
 $author = "Anthony Rivas";
-$base_url = "http://pva.931.mytemp.website";
+$base_url = "http://127.0.0.1/ai_consulting_website_git";
 
 
 
@@ -36,102 +36,6 @@ function logged_in(){
     return false;
   }
 }
-
-
-
-function get_business_valuation_exit_entry(){
-
-  global $conn;
-
-  $entries = [];
-  $start = 0;
-  $end = 50;
-
-  $get_entries = mysqli_query($conn, "SELECT * FROM business_valuation_exit_entry WHERE id >= '$start' AND id <= '$end'");
-  while( $the_entry = mysqli_fetch_assoc( $get_entries ) ){
-    $entries[] = $the_entry;
-  }
-
-  return $entries;
-}
-
-
-
-
-
-
-
-
-
-
-function get_commercial_real_estate_entry(){
-
-  global $conn;
-
-  $entries = [];
-  $start = 0;
-  $end = 50;
-
-  $get_entries = mysqli_query($conn, "SELECT * FROM commercial_real_estate_entry WHERE id >= '$start' AND id <= '$end'");
-  while( $the_entry = mysqli_fetch_assoc( $get_entries ) ){
-    $entries[] = $the_entry;
-  }
-
-  return $entries;
-}
-
-
-
-
-
-
-
-
-
-function get_real_estate_disposition_opportunities_entry(){
-
-  global $conn;
-
-  $entries = [];
-  $start = 0;
-  $end = 50;
-
-  $get_entries = mysqli_query($conn, "SELECT * FROM real_estate_disposition_opportunities_entry WHERE id >= '$start' AND id <= '$end'");
-  while( $the_entry = mysqli_fetch_assoc( $get_entries ) ){
-    $entries[] = $the_entry;
-  }
-
-  return $entries;
-}
-
-
-
-
-
-
-
-
-
-function get_residential_real_estate_entry(){
-
-  global $conn;
-
-  $entries = [];
-  $start = 0;
-  $end = 50;
-
-  $get_entries = mysqli_query($conn, "SELECT * FROM residential_real_estate_entry WHERE id >= '$start' AND id <= '$end'");
-  while( $the_entry = mysqli_fetch_assoc( $get_entries ) ){
-    $entries[] = $the_entry;
-  }
-
-  return $entries;
-}
-
-
-
-
-
 
 
 
@@ -244,7 +148,6 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "login" ){
 
 
 if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
-
   $current_time = date('m/d/Y H:i:s');
 
 
@@ -273,6 +176,7 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
     $errors[] = "Email cannot be empty.";
   }
 
+
   if( isset($_POST['phone']) && $_POST['phone'] ){
     $phone = $_POST['phone'];
 
@@ -281,41 +185,11 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
   }
 
 
-  if( isset($_POST['message']) && $_POST['message'] ){
-    $message = $_POST['message'];
+  if( isset($_POST['messagedata']) && $_POST['messagedata'] ){
+    $messagedata = $_POST['messagedata'];
 
   } else {
     $errors[] = "Message cannot be empty.";
-  }
-
-
-
-
-
-
-
-  if( isset( $_POST['businessvaluation'] ) && $_POST['businessvaluation'] ){
-    $businessvaluation = $_POST['businessvaluation'];
-  } else {
-    $businessvaluation = "0";
-  }
-
-  if( isset( $_POST['selling'] ) && $_POST['selling'] ){
-    $selling = $_POST['selling'];
-  } else {
-    $selling = "0";
-  }
-
-  if( isset( $_POST['buying'] ) && $_POST['buying'] ){
-    $buying = $_POST['buying'];
-  } else {
-    $buying = "0";
-  }
-
-  if( isset( $_POST['other'] ) && $_POST['other'] ){
-    $other = $_POST['other'];
-  } else {
-    $other = "0";
   }
 
 
@@ -337,20 +211,14 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
   } else {
     //insert data and return success
 
-      mysqli_query($conn, "INSERT INTO residential_real_estate_entry 
+       $sql = "INSERT INTO virtualdominance 
       (
         firstname, 
         lastname,
         phone,
         email,
-        message,
-
-
-        datetimeinserted,
-        businessvaluation,
-        selling,
-        buying,
-        other
+        messagedata,
+        datetimeinserted
       ) 
       VALUES 
       (
@@ -358,19 +226,17 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
         '$lastname', 
         '$phone', 
         '$email', 
-        '$message', 
-
-
-
-        '$current_time',
-        '$businessvaluation',
-        '$selling',
-        '$buying',
-        '$other'
+        '$messagedata', 
+        '$current_time'
       ) 
-      ");
+      ";
+        
+        if ($conn->query($sql) === TRUE) {
+          echo "success";
+        } else {
+          echo "Error: " . $sql . "<br>" . $conn->error;
+        }
 
-      echo "success";
 
 
   }
@@ -382,5 +248,7 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
 
   exit();
 }
+
+
 
 ?>

@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 
 
 
-$envPath = "../.env";
+$envPath = ".env";
 
 if (file_exists($envPath)) {
     $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

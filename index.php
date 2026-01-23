@@ -1,169 +1,16 @@
 <?php
-date_default_timezone_set('America/New_York');
-error_reporting(E_ALL);
-
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "dreyn";
-
-
-// Create connection
-$conn = new mysqli($host, $user, $pass, $dbname);
-
-
-session_start();
-
-if(isset($_SESSION['user_id']) && $_SESSION['user_id']){
-  $user_id = $_SESSION['user_id'];
-} else {
-  $user_id = 0;
-}
+// Vars
+$page = "home";
+$pagetitle = "Home | AI consultation";
+$description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non euismod dolor. Integer sapien ipsum, dapibus eget bibendum sed nullam sodales.";
 
 
 
 
-
-
-
-
-
-
-if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
-  $current_time = date('m/d/Y H:i:s');
-
-
-  $errors = [];
-
-  if( isset($_POST['firstname']) && $_POST['firstname'] ){
-    $firstname = $_POST['firstname'];
-  } else {
-    $errors[] = "first name cannot be empty.";
-  }
-
-  if( isset($_POST['lastname']) && $_POST['lastname'] ){
-    $lastname = $_POST['lastname'];
-  } else {
-    $errors[] = "last name cannot be empty.";
-  }
-
-  if( isset($_POST['email']) && $_POST['email'] ){
-    $email = $_POST['email'];
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $errors[] = "Invalid Email Format";
-    }
-
-  } else {
-    $errors[] = "Email cannot be empty.";
-  }
-
-
-  if( isset($_POST['phone']) && $_POST['phone'] ){
-    $phone = $_POST['phone'];
-
-  } else {
-    $errors[] = "Phone cannot be empty.";
-  }
-
-
-  if( isset($_POST['messagedata']) && $_POST['messagedata'] ){
-    $messagedata = $_POST['messagedata'];
-
-  } else {
-    $errors[] = "Message cannot be empty.";
-  }
-
-
-
-
-
-  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
-    //make html error for return
-    $html = "<ul>";
-
-    foreach( $errors as $error ){
-      $html .= "<li>".$error."</li>";
-    }
-
-    $html .= "</ul>";
-
-    echo $html;
-
-  } else {
-    //insert data and return success
-
-       $sql = "INSERT INTO virtualdominance 
-      (
-        firstname, 
-        lastname,
-        phone,
-        email,
-        messagedata,
-        datetimeinserted
-      ) 
-      VALUES 
-      (
-        '$firstname', 
-        '$lastname', 
-        '$phone', 
-        '$email', 
-        '$messagedata', 
-        '$current_time'
-      ) 
-      ";
-        
-        if ($conn->query($sql) === TRUE) {
-          echo "success";
-        } else {
-          echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-
-
-  }
-
-
-
-
-  
-
-  exit();
-}
-
-
-
-
-
-
-
+include("template-parts/header.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Virtual Dominance</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 
-
-  <script src="assets/js/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
-
-
-
-  
-</head>
-<body>
-
-<header class="navbar">
-  <div class="logo">
-    <img src="logo.png" class="site-logo" alt="Virtual Dominance Logo">
-  </div>
-  
-</header>
 
 <section class="hero">
   <h1>Virtual Dominance</h1>
@@ -364,191 +211,10 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
 
     <textarea id="message" rows="5" placeholder="Your Message *" class="message-data w-100 m-0 p-0"></textarea>
 
-      <span class="btn-text submit-btn">Send Message</span>
+      <span class="btn-text submit-btn mt-2 d-inline-block">Send Message</span>
 
   </form>
 </section>
-
-<footer class="footer">
-  <div class="footer-grid">
-
-    <div>
-      <img src="logo.png" class="site-logo" alt="Virtual Dominance Logo">
-      <p>
-        Virtual Dominance IT consulting company delivering innovative digital solutions
-        across industries worldwide.
-      </p>
-    </div>
-
-    <div>
-      <h4>Services</h4>
-      <ul>
-        <li>Cloud Services</li>
-        <li>Data Analytics</li>
-        <li>Application Development</li>
-        <li>AI & Automation</li>
-      </ul>
-    </div>
-
-    <div>
-      <h4>Company</h4>
-      <ul>
-        <li>About Us</li>
-        <li>Careers</li>
-        <li>Partners</li>
-        <li>Contact</li>
-      </ul>
-    </div>
-
-    <div>
-      <h4>Contact</h4>
-      <ul>
-        <li>Email: info@Virtual Dominance.com</li>
-        <li>Phone: +1 000 000 0000</li>
-        <li>Global Locations</li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2026 Virtual Dominance Company. All rights reserved.
-  </div>
-</footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<template id="typing-template">
-  <div class="message bot typing">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</template>
-
-<div id="chat-toggle">
-  🤖
-</div>
-
-<!-- Chatbox -->
-<div id="chatbox">
-  <div class="chat-header">
-    <div class="chat-title">
-      <span class="dot"></span> AI Assistant
-    </div>
-    <button id="close-chat">✕</button>
-  </div>
-
-  <div id="chat-messages"></div>
-
-  <div class="chat-input">
-    <input type="text" id="user-input" placeholder="Ask me anything..." />
-    <button onclick="sendMessage()">➤</button>
-  </div>
-</div>
-
-
-<script>
-
-
-const toggle = document.getElementById("chat-toggle");
-const chatbox = document.getElementById("chatbox");
-const closeBtn = document.getElementById("close-chat");
-const messages = document.getElementById("chat-messages");
-
-let introShown = false;
-
-function showIntro() {
-  if (introShown) return;
-
-  const introText =
-    "👋 Hi! I’m your AI assistant.\n" +
-    "I can help answer questions and guide you.\n" +
-    "How can I help you today?";
-
-  addMessage(introText, "bot");
-  introShown = true;
-}
-
-toggle.onclick = () => {
-  chatbox.style.display = "flex";
-  setTimeout(showIntro, 500); // slight delay for smooth UX
-};
-
-closeBtn.onclick = () => {
-  chatbox.style.display = "none";
-};
-
-function addMessage(text, sender) {
-  const msg = document.createElement("div");
-  msg.textContent = text;
-  msg.style.margin = "6px 0";
-  msg.style.textAlign = sender === "user" ? "right" : "left";
-  messages.appendChild(msg);
-  messages.scrollTop = messages.scrollHeight;
-}
-
-
-
-async function sendMessage() {
-  const input = document.getElementById("user-input");
-  const message = input.value.trim();
-  if (!message) return;
-
-  addMessage(message, "user");
-  input.value = "";
-
-  // Add typing animation
-  const template = document.getElementById("typing-template");
-  const typingIndicator = template.content.cloneNode(true);
-  const typingEl = typingIndicator.firstElementChild;
-  messages.appendChild(typingEl);
-  messages.scrollTop = messages.scrollHeight;
-
-  const response = await fetch("chat.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message })
-  });
-
-  const data = await response.json();
-
-  // Remove typing animation
-  typingEl.remove();
-
-  //DEV
-  console.log( data );
-
-
-  addMessage(data.reply || "API ERROR: "+ data.error, "bot");
-}
-</script>
-
-
-
-
 
 
 
@@ -575,11 +241,6 @@ async function sendMessage() {
       var phone = jQuery(".main-form .phone").val();
       var email = jQuery(".main-form .email").val();
       var messagedata = jQuery(".main-form .message-data").val();
-
-
-
-
-      
 
 
       $.ajax({
@@ -622,5 +283,7 @@ async function sendMessage() {
 
   });
 </script>
-</body>
-</html>
+
+<script src="assets/script.js" crossorigin="anonymous"></script>
+
+<?php include("template-parts/footer.php"); ?>
