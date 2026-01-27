@@ -197,7 +197,6 @@ include("template-parts/header.php");
 
 
     <div class="response-container">
-      
     </div>
 
     <input type="text"  placeholder="First Name" class="firstname" />

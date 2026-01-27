@@ -39,8 +39,47 @@ include("init/main-functions.php");
 <body>
 
 <header class="navbar">
-  <div class="logo">
-    <img src="logo.png" class="site-logo" alt="Virtual Dominance Logo">
-  </div>
+  
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark blog-navbar">
+	  <div class="container">
+	    <a class="navbar-brand fw-bold" href="#">
+	      <div class="logo">
+			    <img src="assets/img/logoipsum-410.png" class="site-logo" alt="Virtual Dominance Logo">
+			  </div>
+	    </a>
+
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#blogNav">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+
+	    <div class="collapse navbar-collapse" id="blogNav">
+	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3">
+	        <li class="nav-item">
+	          <a class="nav-link " href="<?php echo $base_url; ?>">
+	            <i class="fa-solid fa-house me-1"></i> Home
+	          </a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="<?php echo $base_url; ?>/blog.php">
+	            <i class="fa-regular fa-newspaper me-1"></i> Blogs
+	          </a>
+	        </li>
+
+
+	        <li class="nav-item nav-cta">
+					  <a class="nav-link cta-link" href="<?php echo $base_url; ?>#contactForm">
+					    Contact Us
+					  </a>
+					</li>
+
+
+
+
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
   
 </header>

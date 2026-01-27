@@ -4,7 +4,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "dreyn";
+$dbname = "virtualdominance";
 
 
 // Create connection

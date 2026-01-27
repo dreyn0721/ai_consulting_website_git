@@ -3,7 +3,7 @@
 	  <div class="footer-grid">
 
 	    <div>
-	      <img src="logo.png" class="site-logo" alt="Virtual Dominance Logo">
+	      <img src="assets/img/logoipsum-410.png" class="site-logo" alt="Virtual Dominance Logo">
 	      <p>
 	        Virtual Dominance IT consulting company delivering innovative digital solutions
 	        across industries worldwide.

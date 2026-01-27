@@ -427,3 +427,166 @@ footer {
       margin-bottom: 10px;
       border-radius: 10px;
     }
+
+
+
+
+
+
+
+
+
+
+    .breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.14),
+    rgba(255,255,255,0.05)
+  );
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.breadcrumbs a {
+  color: var(--secondary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+
+.breadcrumbs a:hover {
+  color: var(--primary);
+}
+
+.breadcrumbs span {
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+.breadcrumbs i.fa-chevron-right {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .breadcrumbs {
+    font-size: 0.75rem;
+  }
+
+  .breadcrumbs span {
+    max-width: 160px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.blog-navbar .nav-link {
+  position: relative;
+  padding: 6px 0;
+  margin: 0 14px;
+  color: #cfd6f6;
+  font-weight: 500;
+  background: none;
+  transition: color 0.25s ease;
+}
+
+/* Underline (hidden by scale) */
+.blog-navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #150046,
+    blue
+  );
+  transform: scaleX(0);
+  transform-origin: left; /* 👈 slide from left */
+  transition: transform 0.35s ease;
+}
+
+/* Hover */
+.blog-navbar .nav-link:hover {
+  color: #ffffff;
+}
+
+.blog-navbar .nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* CTA item spacing */
+.nav-cta {
+  margin-left: 18px;
+}
+
+/* CTA link */
+.blog-navbar .cta-link {
+  color: #fff;
+  font-weight: 600;
+  border: solid 1px #34A7FF;
+  border-radius: 5px;
+  background: #0E4271;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+
+
+/* CTA hover */
+.blog-navbar .cta-link:hover {
+  color: #ffffff;
+}
+
+.blog-navbar .cta-link.cta-link:hover::after {
+  background: unset;
+}
+
+.blog-navbar .nav-link.cta-link:hover::after {
+  transform: unset;
+}
+
+.blog-navbar .cta-link.cta-link::after {
+  background: unset;
+}
+
+.blog-navbar .nav-link.cta-link::after {
+  transform: unset;
+}
