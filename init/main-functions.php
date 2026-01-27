@@ -46,12 +46,6 @@ function logged_in(){
 
 
 
-
-
-
-
-
-
 function get_articles_feeds( $get_start=false, $get_end=false){
   global $conn;
   $articles = [];
@@ -100,14 +94,11 @@ function get_articles_feeds( $get_start=false, $get_end=false){
 
 
 
-
 function get_comments_by_article_id( $article_id ){
   global $conn;
   $comments = [];
 
   $get_comments = mysqli_query($conn, 
-
-
     "SELECT
         M.*,
         J.firstname AS firstname,
@@ -128,12 +119,9 @@ function get_comments_by_article_id( $article_id ){
 
     "
   );
-
-
   while( $the_comments = mysqli_fetch_assoc( $get_comments ) ){
     $comments[] = $the_comments;
   }
-
   return $comments;
 }
 
@@ -143,12 +131,8 @@ function get_comments_by_article_id( $article_id ){
 
 
 
-
-
-
 function get_article_single( $article_id ){
   global $conn;
-
 
   // $get_article = mysqli_query($conn, "SELECT * FROM articles WHERE id = '$article_id' ");
 
@@ -171,15 +155,8 @@ function get_article_single( $article_id ){
         DESC;
 
     "
-
   );
-
-    
-
-
-
   $the_article = mysqli_fetch_assoc( $get_article );
-
   return $the_article;
 }
 
@@ -193,6 +170,340 @@ function get_userdata_by_id( $id ){
 
   return $userdata;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if( isset( $_POST['action'] ) && $_POST['action'] == "article-post" ){
+
+  $current_time = date('m/d/Y H:i:s');
+  global $conn;
+  global $user_id;
+
+  $errors = [];
+
+
+  
+
+  if( isset($_POST['article_title']) && $_POST['article_title'] ){
+    $article_title = ucwords( $_POST['article_title'] );
+  } else {
+    $errors[] = "Article title cannot be empty.";
+  }
+
+  if( isset($_POST['article_description']) && $_POST['article_description'] ){
+    $article_description = $_POST['article_description'];
+  } else {
+    $errors[] = "Article description cannot be empty.";
+  }
+
+  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
+    //make html error for return
+    $html = "<ul>";
+
+    foreach( $errors as $error ){
+      $html .= "<li>".$error."</li>";
+    }
+
+    $html .= "</ul>";
+
+    echo $html;
+    exit();
+  } else {
+
+    if(isset($_FILES['article_img'])){
+      $file_name = $_FILES['article_img']['name'];
+
+      $file_size =$_FILES['article_img']['size'];
+      $file_tmp =$_FILES['article_img']['tmp_name'];
+      $file_type=$_FILES['article_img']['type'];
+      $getting_extn = explode('.',$_FILES['article_img']['name']);
+      $file_ext=strtolower(end($getting_extn));
+      $article_pic = md5(date("YmDHis"))."x".rand(0,100).".".$file_ext;
+
+      $extensions= array("png","jpg","jpeg");
+
+      if(in_array($file_ext,$extensions) == true){
+        if($file_size > 2097152){
+          $errors[]='Article image size must be lower than 2 MB.';
+        } else {
+          move_uploaded_file($file_tmp,"assets/article_imgs/".$article_pic);
+          $img_url = "/assets/article_imgs/".$article_pic;
+
+
+          $sql = "INSERT INTO articles 
+          (
+            title, 
+            description,
+            img_url,
+            posted_by_id,
+            datetimeinserted
+          ) 
+          VALUES 
+          (
+            '$article_title', 
+            '$article_description', 
+            '$img_url', 
+            '$user_id', 
+            '$current_time'
+          ) 
+          ";
+
+
+        
+          if ($conn->query($sql) === TRUE) {
+            echo "success";
+            exit();
+          } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+          }
+
+        }
+
+      } else {
+        $errors[] = "We only allow Png, Jpeg, Jpg file types to be uploaded in profile picture";
+      }
+    }
+
+  }
+
+
+  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
+    //make html error for return
+    $html = "<ul>";
+
+    foreach( $errors as $error ){
+      $html .= "<li>".$error."</li>";
+    }
+
+    $html .= "</ul>";
+
+    echo $html;
+    exit();
+  }
+
+
+  exit();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if( isset( $_POST['action'] ) && $_POST['action'] == "comment" ){
+
+
+
+  $current_time = date('m/d/Y H:i:s');
+
+
+  $errors = [];
+
+
+
+  if( isset($user_id) && $user_id ){
+  } else {
+    $errors[] = "You're not logged in, please refresh the page";
+  }
+
+
+  if( isset($_POST['article_id']) && $_POST['article_id'] ){
+    $article_id = $_POST['article_id'];
+  } else {
+    $errors[] = "There has been error loading page data, please refresh the page";
+  }
+
+
+  if( isset($_POST['commentmsg']) && $_POST['commentmsg'] ){
+    $commentmsg = $_POST['commentmsg'];
+
+  } else {
+    $errors[] = "Comment cannot be empty.";
+  }
+
+  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
+    //make html error for return
+    $html = "<ul>";
+
+    foreach( $errors as $error ){
+      $html .= "<li>".$error."</li>";
+    }
+
+    $html .= "</ul>";
+
+    echo $html;
+    exit();
+
+  } else {
+    //insert data and return success
+
+       $sql = "INSERT INTO comments 
+      (
+        article_id, 
+        user_id,
+        comment,
+        datetimeinserted
+      ) 
+      VALUES 
+      (
+        '$article_id', 
+        '$user_id', 
+        '$commentmsg', 
+        '$current_time'
+      ) 
+      ";
+        
+        if ($conn->query($sql) === TRUE) {
+          echo "success";
+        } else {
+          echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+
+
+  }
+
+
+
+
+  
+
+  exit();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -409,226 +720,4 @@ if( isset( $_POST['action'] ) && $_POST['action'] == "entry" ){
 
 
 
-if( isset( $_POST['action'] ) && $_POST['action'] == "article-post" ){
-
-  $current_time = date('m/d/Y H:i:s');
-  global $conn;
-  global $user_id;
-
-  $errors = [];
-
-
-  
-
-  if( isset($_POST['article_title']) && $_POST['article_title'] ){
-    $article_title = ucwords( $_POST['article_title'] );
-  } else {
-    $errors[] = "Article title cannot be empty.";
-  }
-
-  
-
-  if( isset($_POST['article_description']) && $_POST['article_description'] ){
-    $article_description = $_POST['article_description'];
-  } else {
-    $errors[] = "Article description cannot be empty.";
-  }
-
-
-
-
-  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
-    //make html error for return
-    $html = "<ul>";
-
-    foreach( $errors as $error ){
-      $html .= "<li>".$error."</li>";
-    }
-
-    $html .= "</ul>";
-
-    echo $html;
-    exit();
-  } else {
-
-    if(isset($_FILES['article_img'])){
-      $file_name = $_FILES['article_img']['name'];
-
-      $file_size =$_FILES['article_img']['size'];
-      $file_tmp =$_FILES['article_img']['tmp_name'];
-      $file_type=$_FILES['article_img']['type'];
-      $getting_extn = explode('.',$_FILES['article_img']['name']);
-      $file_ext=strtolower(end($getting_extn));
-      $article_pic = md5(date("YmDHis"))."x".rand(0,100).".".$file_ext;
-
-      $extensions= array("png","jpg","jpeg");
-
-      if(in_array($file_ext,$extensions) == true){
-        if($file_size > 2097152){
-          $errors[]='Article image size must be lower than 2 MB.';
-        } else {
-          move_uploaded_file($file_tmp,"assets/article_imgs/".$article_pic);
-          $img_url = "/assets/article_imgs/".$article_pic;
-
-
-          $sql = "INSERT INTO articles 
-          (
-            title, 
-            description,
-            img_url,
-            posted_by_id,
-            datetimeinserted
-          ) 
-          VALUES 
-          (
-            '$article_title', 
-            '$article_description', 
-            '$img_url', 
-            '$user_id', 
-            '$current_time'
-          ) 
-          ";
-
-
-        
-          if ($conn->query($sql) === TRUE) {
-            echo "success";
-            exit();
-          } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-          }
-
-        }
-
-      } else {
-        $errors[] = "We only allow Png, Jpeg, Jpg file types to be uploaded in profile picture";
-      }
-    }
-
-  }
-
-
-  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
-    //make html error for return
-    $html = "<ul>";
-
-    foreach( $errors as $error ){
-      $html .= "<li>".$error."</li>";
-    }
-
-    $html .= "</ul>";
-
-    echo $html;
-    exit();
-  }
-
-
-
-
-
-  exit();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if( isset( $_POST['action'] ) && $_POST['action'] == "comment" ){
-
-
-
-  $current_time = date('m/d/Y H:i:s');
-
-
-  $errors = [];
-
-
-
-  if( isset($user_id) && $user_id ){
-  } else {
-    $errors[] = "You're not logged in, please refresh the page";
-  }
-
-
-  if( isset($_POST['article_id']) && $_POST['article_id'] ){
-    $article_id = $_POST['article_id'];
-  } else {
-    $errors[] = "There has been error loading page data, please refresh the page";
-  }
-
-
-  if( isset($_POST['commentmsg']) && $_POST['commentmsg'] ){
-    $commentmsg = $_POST['commentmsg'];
-
-  } else {
-    $errors[] = "Comment cannot be empty.";
-  }
-
-
-
-
-
-  if( isset( $errors ) && is_array( $errors ) && count( $errors ) > 0 ){
-    //make html error for return
-    $html = "<ul>";
-
-    foreach( $errors as $error ){
-      $html .= "<li>".$error."</li>";
-    }
-
-    $html .= "</ul>";
-
-    echo $html;
-    exit();
-
-  } else {
-    //insert data and return success
-
-       $sql = "INSERT INTO comments 
-      (
-        article_id, 
-        user_id,
-        comment,
-        datetimeinserted
-      ) 
-      VALUES 
-      (
-        '$article_id', 
-        '$user_id', 
-        '$commentmsg', 
-        '$current_time'
-      ) 
-      ";
-        
-        if ($conn->query($sql) === TRUE) {
-          echo "success";
-        } else {
-          echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-
-
-  }
-
-
-
-
-  
-
-  exit();
-}
 ?>
