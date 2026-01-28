@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 27, 2026 at 05:08 PM
+-- Generation Time: Jan 28, 2026 at 09:48 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.3.6
 
@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
+  `datetimeinserted` text NOT NULL,
+  `last_login` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -43,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `firstname`, `lastname`, `role`) VALUES
-(1, 'dreyn', '0d107d09f5bbe40cade3de5c71e9e9b7', 'dreyn0721@gmail.com', 'andrian', 'patrick', 'admin'),
-(2, 'client', '0d107d09f5bbe40cade3de5c71e9e9b7', 'dreyn1111@gmail.com', 'andrian', 'patrick', 'user');
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `firstname`, `lastname`, `role`, `datetimeinserted`, `last_login`) VALUES
+(1, 'dreyn', '0d107d09f5bbe40cade3de5c71e9e9b7', 'dreyn0721@gmail.com', 'andrian', 'patrick', 'admin', '', ''),
+(2, 'client', '0d107d09f5bbe40cade3de5c71e9e9b7', 'dreyn1111@gmail.com', 'andrian', 'patrick', 'user', '', '');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

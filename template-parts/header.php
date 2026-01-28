@@ -68,14 +68,22 @@ include("init/main-functions.php");
 	        </li>
 
 
+					<?php if( logged_in() ): ?>
+						<li class="nav-item"><a class="nav-link" href="<?php echo $base_url; ?>/logout.php">Logout</a></li>
+					<?php else: ?>
+						<li class="nav-item">
+							<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#authModal">
+								Login
+							</a>
+						</li>
+					<?php endif; ?>
+
+
 	        <li class="nav-item nav-cta">
 					  <a class="nav-link cta-link" href="<?php echo $base_url; ?>#contactForm">
 					    Contact Us
 					  </a>
 					</li>
-
-
-
 
 	      </ul>
 	    </div>
@@ -83,3 +91,4 @@ include("init/main-functions.php");
 	</nav>
   
 </header>
+	<?php include("template-parts/auth-modal.php"); ?>
