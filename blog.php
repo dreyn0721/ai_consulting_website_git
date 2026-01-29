@@ -65,42 +65,6 @@ include("template-parts/header.php");
 </div>
 
 
-<style type="text/css">
-
-
-   #editor-container {
-      height: 400px;
-    }
-    .article-description {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-
-
-
-
-</style>
-
-
-<script>
-    // Initialize Quill editor
-    var quill = new Quill('#editor-container', {
-      theme: 'snow',
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3, false] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image'],
-          ['clean']
-        ],
-        clipboard: {
-          matchVisual: false // preserves formatting when pasting
-        }
-      }
-    });
-
-  </script>
 
 
 
@@ -505,6 +469,21 @@ body {
   max-width: 100%;
 }
 
+
+
+
+
+ #editor-container {
+    height: 400px;
+  }
+  .article-description {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+
+
+
+
 </style>
 
 
@@ -641,6 +620,49 @@ body {
 
 </script>
 
+
+
+
+
+<script>
+
+  jQuery( document ).ready(function(){
+
+
+
+
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link'],
+          ['clean']
+        ],
+        clipboard: {
+          matchVisual: false // preserves formatting when pasting
+        }
+      }
+    });
+
+
+
+    //Save this for future post editing
+    var savedContent = '';
+
+    // Set the content into Quill editor
+    quill.root.innerHTML = savedContent;
+
+    // Optional: if you also want to set the hidden input for form submission
+    $('#blogContent').val(savedContent);
+
+
+  });
+
+  </script>
 
 
 
