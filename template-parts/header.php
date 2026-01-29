@@ -44,7 +44,7 @@ include("init/main-functions.php");
 
   <nav class="navbar navbar-expand-lg navbar-dark blog-navbar">
 	  <div class="container">
-	    <a class="navbar-brand fw-bold" href="#">
+	    <a class="navbar-brand fw-bold" href="<?php echo $base_url; ?>">
 	      <div class="logo">
 			    <img src="assets/img/logoipsum-410.png" class="site-logo" alt="Virtual Dominance Logo">
 			  </div>
@@ -56,11 +56,6 @@ include("init/main-functions.php");
 
 	    <div class="collapse navbar-collapse" id="blogNav">
 	      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3">
-	        <li class="nav-item">
-	          <a class="nav-link " href="<?php echo $base_url; ?>">
-	            <i class="fa-solid fa-house me-1"></i> Home
-	          </a>
-	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="<?php echo $base_url; ?>/blog.php">
 	            <i class="fa-regular fa-newspaper me-1"></i> Blogs
