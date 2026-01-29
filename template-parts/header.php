@@ -33,7 +33,8 @@ include("init/main-functions.php");
 	<title><?=$pagetitle;?></title>
 
 
-
+	<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+	<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
   
 </head>
 <body>

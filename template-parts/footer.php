@@ -21,16 +21,6 @@
 	    </div>
 
 	    <div>
-	      <h4>Company</h4>
-	      <ul>
-	        <li>About Us</li>
-	        <li>Careers</li>
-	        <li>Partners</li>
-	        <li>Contact</li>
-	      </ul>
-	    </div>
-
-	    <div>
 	      <h4>Contact</h4>
 	      <ul>
 	        <li>Email: info@Virtual Dominance.com</li>
